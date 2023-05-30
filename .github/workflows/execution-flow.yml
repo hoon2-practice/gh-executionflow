@@ -75,6 +75,16 @@ jobs:
               run: ls
             - name: Deploy
               run: echo "Deploying..."
+    report:
+        needs: [lint, deploy]
+        if: failure()
+        runs-on: ubuntu-latest
+        steps:
+            - name: Output information
+              run: |
+                  echo "Something went wrong"
+                  echo "${{ github }}"
+
 # Special Conditional Functions
 # failure() - 이전의 jobs나 steps가 실패하면 이 함수 내에 정의된 작업이 수행
 # success() - 모든 작업이 성공하면 이 함수 내에 정의된 작업 수행
