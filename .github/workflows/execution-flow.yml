@@ -36,7 +36,7 @@ jobs:
               id: run-tests
               run: npm run test
             - name: Upload test report # test가 실패하면 밑으로 실행안됨
-              if: steps.run-tests.outcome == 'failure' # test가 실패해도 이 단계는 실행됨
+              if: failure() && steps.run-tests.outcome == 'failure' # test가 실패해도 이 단계는 실행됨
               uses: actions/upload-artifact@v3
               with:
                   name: test-report
@@ -75,3 +75,8 @@ jobs:
               run: ls
             - name: Deploy
               run: echo "Deploying..."
+# Special Conditional Functions
+# failure() - 이전의 jobs나 steps가 실패하면 이 함수 내에 정의된 작업이 수행
+# success() - 모든 작업이 성공하면 이 함수 내에 정의된 작업 수행
+# always() -  성공하든 실패하든 항상 실행
+# cancelled() - 취소된 경우 실행
