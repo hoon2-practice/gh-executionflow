@@ -13,9 +13,10 @@ jobs:
               id: cache
               uses: actions/cache@v3
               with:
-                  path: ~/.npm
+                  path: node_modules
                   key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
             - name: Install dependencies
+              if: steps.cache.outputs.cache-hit != 'true' # cache가 있다면 npm ci 하지마!
               run: npm ci
             - name: Lint code
               run: npm run lint
@@ -28,9 +29,10 @@ jobs:
               id: cache
               uses: actions/cache@v3
               with:
-                  path: ~/.npm
+                  path: node_modules
                   key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
             - name: Install dependencies
+              if: steps.cache.outputs.cache-hit != 'true'
               run: npm ci
             - name: Test code
               id: run-tests
@@ -51,9 +53,10 @@ jobs:
               id: cache
               uses: actions/cache@v3
               with:
-                  path: ~/.npm
+                  path: node_modules
                   key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
             - name: Install dependencies
+              if: steps.cache.outputs.cache-hit != 'true'
               run: npm ci
             - name: Build website
               id: build-website
@@ -83,7 +86,7 @@ jobs:
             - name: Output information
               run: |
                   echo "Something went wrong"
-                  echo "${{ github }}"
+                  echo "${{ toJSON(github) }}"
 
 # Special Conditional Functions
 # failure() - 이전의 jobs나 steps가 실패하면 이 함수 내에 정의된 작업이 수행
