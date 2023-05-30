@@ -7,6 +7,12 @@ jobs:
             matrix:
                 node-version: [12, 14, 16]
                 operating-system: [ubuntu-latest, windows-latest]
+                include: # 추가로 포함할 특정 매개변수 조합
+                    - node-version: 18
+                      operating-system: ubuntu-latest
+                exclude: # 제외할 특정 매개변수 조합
+                    - node-version: 12
+                      operating-system: ubuntu-latest
         runs-on: ${{ matrix.operating-system }} # 병렬로 실행됨
         steps:
             - name: Get Code
