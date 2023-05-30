@@ -33,8 +33,10 @@ jobs:
             - name: Install dependencies
               run: npm ci
             - name: Test code
+              id: run-tests
               run: npm run test
-            - name: Upload test report
+            - name: Upload test report # test가 실패하면 밑으로 실행안됨
+              if: steps.run-tests.outcome == 'failure' # test가 실패해도 이 단계는 실행됨
               uses: actions/upload-artifact@v3
               with:
                   name: test-report
