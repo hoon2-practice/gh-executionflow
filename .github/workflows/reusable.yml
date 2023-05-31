@@ -1,0 +1,8 @@
+name: Reusable Deploy
+on: workflow_call # 이 워크플로우를 다른 워크플로우에 붙여서 사용하고 싶다면
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Output information
+              run: echo "Deploying & uploading..."
